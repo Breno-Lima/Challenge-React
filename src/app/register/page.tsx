@@ -69,21 +69,23 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      console.log('Iniciando registro...');
-      const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement;
-      const csrfToken = csrfTokenMeta ? csrfTokenMeta.content : '';
-      console.log('CSRF token:', csrfToken);
-      if (!csrfToken) {
-        throw new Error('CSRF token não encontrado');
-      }
-      console.log('CSRF token:', csrfToken);
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('X-CSRF-TOKEN', csrfToken);
-      console.log('CSRF token:', csrfToken);
+      // console.log('Iniciando registro...');
+      // const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement;
+      // const csrfToken = csrfTokenMeta ? csrfTokenMeta.content : '';
+      // console.log('CSRF token:', csrfToken);
+      // if (!csrfToken) {
+      //   throw new Error('CSRF token não encontrado');
+      // }
+      // console.log('CSRF token:', csrfToken);
+      // const headers = new Headers();
+      // headers.append('Content-Type', 'application/json');
+      // headers.append('X-CSRF-TOKEN', csrfToken);
+      // console.log('CSRF token:', csrfToken);
       const response = await fetch('https://teste.reobote.tec.br/api/register', {
         method: 'POST',
-        headers: headers,
+        headers:{
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name: name,
           email: email,
@@ -92,8 +94,8 @@ export default function Register() {
           persistent: false,
         }),
       });
-      console.log('CSRF token:', csrfToken);
-      console.log(response);
+      // console.log('CSRF token:', csrfToken);
+      // console.log(response);
       if (!response.ok) {
         throw new Error('Erro ao registrar. Verifique seus dados e tente novamente.');
       }
