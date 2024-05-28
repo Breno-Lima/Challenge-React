@@ -66,13 +66,15 @@ export default function Home() {
 
 
 const handleLogin = async () => {
+
     const name = localStorage.getItem('name');
     const access_token = localStorage.getItem('access_token');
     const response = await fetch("https://teste.reobote.tec.br/api/login", {
       body: JSON.stringify({
         email,
         password,
-        persistent: true
+        persistent: true,
+        name,
       }),
       headers: {
         "Content-Type": "application/json",

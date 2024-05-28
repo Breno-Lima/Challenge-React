@@ -63,7 +63,6 @@ export default function Register() {
     setIsValidPasswordConfirmation(inputPasswordConfirmation === password);
   };
   
-  
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setName(name);
