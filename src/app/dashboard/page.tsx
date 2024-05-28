@@ -24,18 +24,18 @@ export default function Dashboard() {
     const [name, setName] = useState('');
 
     useEffect(() => {
-        const storedName = localStorage.getItem('name');
-        if (storedName) {
-            setName(storedName);
+        const name = localStorage.getItem('name');
+        if (name) {
+            setName(name);
         }
     }, []);
-
+    console.log('Valor de name:', name);
     const handleLogout = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
-            const name = localStorage.getItem('name');
-            localStorage.setItem('name', name!); 
+            // const name = localStorage.getItem('name');
+            // localStorage.setItem('name', name!); 
             console.log('Valor de name:', name);
             console.log('Access Token:', access_token);
             console.log('Email:', email);
