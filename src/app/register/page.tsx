@@ -97,6 +97,7 @@ const handleRegister = async () => {
     localStorage.setItem('access_token', data.access_token);
     console.log('access_token:', data.access_token)
     localStorage.setItem('name', data.name);
+    console.log(data.name);
     console.log('name:', name)
     localStorage.setItem('email', data.email);
     window.location.href = '/';
