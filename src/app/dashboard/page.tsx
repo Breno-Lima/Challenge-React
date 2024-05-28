@@ -21,50 +21,19 @@ const montserratbold = Montserrat({
 
 export default function Dashboard() {
 
-    const [users, setUsers] = useState([]);
-
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
-        try {
-            const response = await fetch('https://teste.reobote.tec.br/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': '*/*',
-                    'X-CSRF-TOKEN': '',
-                },
-                body: JSON.stringify({
-                    "name": "ragnar",
-                    "email": "ragnar@example.com",
-                    "password": "ragnar123",
-                    "password_confirmation": "ragnar123",
-                    "persistent": true
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro ao obter usuários cadastrados');
-            }
-
-            const data = await response.json();
-            setUsers(data.users); // Supondo que o retorno da API seja um objeto com uma chave "users"
-        } catch (error) {
-            console.error('Erro ao obter usuários cadastrados:', error);
-        }
-    };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     // const name = typeof window !== 'undefined' ? localStorage.getItem('name') : '';
     const [name, setName] = useState('');
 
     useEffect(() => {
-        const name = localStorage.getItem('name');
-        if (name) {
-            setName(name);
-            console.log('Nome:', name);
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            setName(storedName);
+            console.log('Nome:', storedName);
+        } else {
+            setName('Usuário');
+            console.log('Nome não encontrado no localStorage, definido como Usuário');
         }
     }, []);
 
@@ -73,6 +42,8 @@ export default function Dashboard() {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
             const name = localStorage.getItem('name');
+            console.log('Valor de name:', name);
+
             console.log('Nome:', name);
             console.log('Nome:', name);
             console.log('Nome:', name);
@@ -133,9 +104,7 @@ export default function Dashboard() {
                 </header>
                 <div className='m-auto mt-14 items-center rounded-lg border-none backdrop-blur-lg bg-white/50 p-12'>
                     <h1 className={`text-[25pt]  ${montserratbold.className} pb-4`}>Usuários Cadastrados</h1>
-                    {users.map((user: { name: string }, index: number) => (
-                        <div key={index} className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>{user.name}</div>
-                    ))}
+                        <div className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>Ragnar</div>
                 </div>
             </div>
 

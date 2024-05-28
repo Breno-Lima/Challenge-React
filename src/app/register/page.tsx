@@ -71,6 +71,7 @@ export default function Register() {
 const handleRegister = async () => {
   try {
     const access_token = localStorage.getItem('access_token');
+    const name = localStorage.getItem('name');
     const response = await fetch('https://teste.reobote.tec.br/api/register', {
       method: 'POST',
       headers: {
@@ -99,7 +100,6 @@ const handleRegister = async () => {
     console.log('name:', name)
     localStorage.setItem('email', data.email);
     window.location.href = '/';
-
   } catch (error) {
     console.error('Erro ao registrar:', error);
     setError('Erro ao registrar. Verifique seus dados e tente novamente.');
