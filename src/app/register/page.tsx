@@ -63,6 +63,7 @@ export default function Register() {
     setIsValidPasswordConfirmation(inputPasswordConfirmation === password);
   };
   
+  
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setName(name);
@@ -71,7 +72,7 @@ export default function Register() {
 const handleRegister = async () => {
   try {
     const access_token = localStorage.getItem('access_token');
-    const name = localStorage.getItem('name');
+    // const name = localStorage.getItem('name');
     const response = await fetch('https://teste.reobote.tec.br/api/register', {
       method: 'POST',
       headers: {
