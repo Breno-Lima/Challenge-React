@@ -64,8 +64,8 @@ export default function Register() {
   };
   
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputName = e.target.value;
-    setName(inputName);
+    const name = e.target.value;
+    setName(name);
   };
 
 const handleRegister = async () => {
