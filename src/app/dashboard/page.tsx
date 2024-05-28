@@ -24,13 +24,8 @@ export default function Dashboard() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [name, setName] = useState(localStorage.getItem('name') || '');
+    const [name, setName] = useState( '');
 
-    useEffect(() => {
-        const updateName = () => setName(localStorage.getItem('name') || '');
-        window.addEventListener('storage', updateName);
-        return () => window.removeEventListener('storage', updateName);
-      }, []);
 
     const handleLogout = async () => {
         try {
