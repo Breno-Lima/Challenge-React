@@ -23,25 +23,25 @@ export default function Dashboard() {
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // const name = typeof window !== 'undefined' ? localStorage.getItem('name') : '';
-    const [name, setName] = useState('');
+     const name = typeof window !== 'undefined' ? localStorage.getItem('name') : '';
+    // const [name, setName] = useState('');
 
-    useEffect(() => {
-        const storedName = localStorage.getItem('name');
-        if (storedName) {
-            setName(storedName);
-            console.log('Nome:', storedName);
-        } else {
-            setName('Usuário');
-            console.log('Nome não encontrado no localStorage, definido como Usuário');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const storedName = localStorage.getItem('name');
+    //     if (storedName) {
+    //         setName(storedName);
+    //         console.log('Nome:', storedName);
+    //     } else {
+    //         setName('Usuário');
+    //         console.log('Nome não encontrado no localStorage, definido como Usuário');
+    //     }
+    // }, []);
 
     const handleLogout = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
-            const name = localStorage.getItem('name');
+            // const name = localStorage.getItem('name');
             console.log('Valor de name:', name);
 
             console.log('Nome:', name);
