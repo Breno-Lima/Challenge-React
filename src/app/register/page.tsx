@@ -7,6 +7,7 @@ import {ArrowLeft } from "@phosphor-icons/react";
 import {Montserrat, Alata} from "next/font/google";
 import Pulsating from "@/components/pulsing";
 import styled from "styled-components";
+import router from "next/router";
 // import fetchApi from '@/services/api';
 
 const alata = Alata({
@@ -67,48 +68,44 @@ export default function Register() {
     setName(inputName);
   };
 
-  const handleRegister = async () => {
-    try {
-      // console.log('Iniciando registro...');
-      // const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement;
-      // const csrfToken = csrfTokenMeta ? csrfTokenMeta.content : '';
-      // console.log('CSRF token:', csrfToken);
-      // if (!csrfToken) {
-      //   throw new Error('CSRF token não encontrado');
-      // }
-      // console.log('CSRF token:', csrfToken);
-      // const headers = new Headers();
-      // headers.append('Content-Type', 'application/json');
-      // headers.append('X-CSRF-TOKEN', csrfToken);
-      // console.log('CSRF token:', csrfToken);
-      const response = await fetch('https://teste.reobote.tec.br/api/register', {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          password: password,
-          password_confirmation: passwordConfirmation,
-          persistent: false,
-        }),
-      });
-      // console.log('CSRF token:', csrfToken);
-      // console.log(response);
-      if (!response.ok) {
-        throw new Error('Erro ao registrar. Verifique seus dados e tente novamente.');
-      }
-      
-      const data = await response.json();
-      console.log("data:", data);
-      console.log('Registro realizado com sucesso:', data);
-      localStorage.setItem('token', data.token);
-    } catch (error) {
-      console.error('Erro ao registrar:', error);
-      setError('Erro ao registrar. Verifique seus dados e tente novamente.');
+const handleRegister = async () => {
+  try {
+    const access_token = localStorage.getItem('access_token');
+    const response = await fetch('https://teste.reobote.tec.br/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`,
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+        persistent: true,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao registrar. Verifique seus dados e tente novamente.');
     }
-  };
+    
+    const data = await response.json();
+    console.log("data:", data);
+    console.log('Registro realizado com sucesso:', data);
+    localStorage.setItem('access_token', data.access_token);
+    console.log('access_token:', data.access_token)
+    localStorage.setItem('name', data.name);
+    console.log('name:', name)
+    localStorage.setItem('email', data.email);
+    window.location.href = '/';
+
+  } catch (error) {
+    console.error('Erro ao registrar:', error);
+    setError('Erro ao registrar. Verifique seus dados e tente novamente.');
+  }
+};
+
     
   return (
     

@@ -14,6 +14,7 @@ const config: Config = {
         'blue-custom': '#712f64', 
         'orange-custom': '#fec637',
         'violet-custom': '#8b269e',
+        'red-custom': '#fb311a',
       },
       backgroundImage: {
         'custom-bg': "url('/images/bg.jpg')",
