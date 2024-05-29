@@ -34,7 +34,7 @@ export default function Dashboard() {
         try {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
-            // const name = localStorage.getItem('name');
+            const name = localStorage.getItem('name');
             // localStorage.setItem('name', name!); 
             console.log('Valor de name:', name);
             console.log('Access Token:', access_token);
@@ -46,7 +46,7 @@ export default function Dashboard() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${access_token}`,
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email, name }),
             });
 
             if (response.ok) {
