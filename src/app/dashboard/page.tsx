@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
 import Reobote from '../../../public/images/reobote.png';
@@ -16,13 +16,19 @@ const montserratbold = Montserrat({
     subsets: ["latin"],
     weight: ["500"],
 });
-// Read the name from localStorage
-
 
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const name = typeof window !== 'undefined' ? localStorage.getItem('name') : '';
-    console.log('Valor de name:', name);
+    const [name, setName] = useState('');
+
+    // Ensure to only read localStorage on the client side
+    if (typeof window !== 'undefined' && !name) {
+        const storedName = localStorage.getItem('name');
+        if (storedName) {
+            setName(storedName);
+        }
+    }
+
     const handleLogout = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
@@ -55,12 +61,8 @@ export default function Dashboard() {
         }
     };
 
-    
-
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-
-
 
     return (
         <main className="grid grid-col bg-custom-bg bg-cover bg-center h-screen justify-center pt-4">
@@ -75,7 +77,7 @@ export default function Dashboard() {
                                 alt="User"
                             />
                         </button>
-                        <span className={`text-violet-custom ${montserrat.className}`}>Bem vindo, {name} </span>
+                        <span className={`text-violet-custom ${montserrat.className}`}>Bem vindo, {name}</span>
                     </div>
                     <div className='rounded-full bg-violet-custom mr-8 px-6 hover:bg-red-custom duration-500 transform hover:scale-110'>
                         <button onClick={openModal}>
@@ -88,7 +90,6 @@ export default function Dashboard() {
                         <div className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>Ragnar</div>
                 </div>
             </div>
-
 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -111,8 +112,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             )}
-
-
         </main>
     );
 }
