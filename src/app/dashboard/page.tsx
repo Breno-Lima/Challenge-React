@@ -42,6 +42,7 @@ export default function Dashboard() {
     const fetchUsers = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
+            console.log('Fetching users with access token:', access_token); // Log token
             const response = await fetch('https://teste.reobote.tec.br/api/dashboard', {
                 method: 'GET',
                 headers: {
@@ -51,10 +52,11 @@ export default function Dashboard() {
             });
 
             if (response.ok) {
-                const data: User[] = await response.json();
-                setUsers(data);
+                const data = await response.json();
+                console.log('API response data:', data); // Log API response
+                setUsers(data.users || []); // Use data.users if API returns users in nested object
             } else {
-                console.error('Failed to fetch users');
+                console.error('Failed to fetch users, status:', response.status);
             }
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -85,7 +87,7 @@ export default function Dashboard() {
                 localStorage.removeItem('access_token');
                 window.location.href = '/';
             } else {
-                console.error('Falha ao fazer logout');
+                console.error('Falha ao fazer logout, status:', response.status);
             }
         } catch (error) {
             console.error('Erro ao fazer logout:', error);
