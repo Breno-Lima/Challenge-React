@@ -1,5 +1,6 @@
 "use client";
 
+import { Pagination } from "@nextui-org/pagination";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
@@ -26,6 +27,8 @@ export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [name, setName] = useState('');
     const [users, setUsers] = useState<User[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 5;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -97,6 +100,12 @@ export default function Dashboard() {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     return (
         <main className="grid grid-col bg-custom-bg bg-cover bg-center h-screen justify-center pt-4">
             <div className='flex flex-col justify-center'>
@@ -120,8 +129,8 @@ export default function Dashboard() {
                 </header>
                 <div className='m-auto mt-14 items-center rounded-lg border-none backdrop-blur-lg bg-white/50 p-12'>
                     <h1 className={`text-[25pt]  ${montserratbold.className} pb-4`}>Usuários Cadastrados</h1>
-                    {users.length > 0 ? (
-                        users.map((user) => (
+                    {currentUsers.length > 0 ? (
+                        currentUsers.map((user) => (
                             <div key={user.id} className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>
                                 <p>{user.name}</p>
                                 <p>{user.email}</p>
@@ -132,6 +141,12 @@ export default function Dashboard() {
                             Nenhum usuário encontrado.
                         </div>
                     )}
+                    <Pagination
+                        total={Math.ceil(users.length / usersPerPage)}
+                        initialPage={1}
+                        page={currentPage}
+                        onChange={paginate}
+                    />
                 </div>
             </div>
 
