@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
-import Reobote from '../../../public/images/reobote.png';
 import { Montserrat } from "next/font/google";
 import Link from 'next/link';
 
@@ -17,17 +16,16 @@ const montserratbold = Montserrat({
     weight: ["500"],
 });
 
-// Initialize name state from localStorage if available
-const getNameFromLocalStorage = () => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('name') || '';
-    }
-    return '';
-};
-
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [name, setName] = useState(getNameFromLocalStorage());
+    const [name, setName] = useState('');
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedName = localStorage.getItem('name');
+            setName(storedName || '');
+        }
+    }, []);
 
     const handleLogout = async () => {
         try {
