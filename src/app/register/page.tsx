@@ -95,9 +95,7 @@ const handleRegister = async () => {
     console.log('Registro realizado com sucesso:', data);
     localStorage.setItem('access_token', data.access_token);
     console.log('access_token:', data.access_token)
-    // localStorage.setItem('name', data.name);
     localStorage.setItem('name', name);
-    // console.log(data.name);
     console.log('name:', name)
     localStorage.setItem('email', data.email);
     window.location.href = '/';

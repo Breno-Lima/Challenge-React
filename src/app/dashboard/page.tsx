@@ -16,19 +16,51 @@ const montserratbold = Montserrat({
     weight: ["500"],
 });
 
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [name, setName] = useState('');
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-          const storedName = localStorage.getItem('name');
-          if (storedName) {
-            setName(storedName);
-          }
+            const storedName = localStorage.getItem('name');
+            if (storedName) {
+                setName(storedName);
+            }
         }
-      }, []);
-      
+
+        // Fetch the users when the component mounts
+        fetchUsers();
+    }, []);
+
+    const fetchUsers = async () => {
+        try {
+            const access_token = localStorage.getItem('access_token');
+            const response = await fetch('https://teste.reobote.tec.br/api/dashboard', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`,
+                },
+            });
+
+            if (response.ok) {
+                const data: User[] = await response.json();
+                setUsers(data);
+            } else {
+                console.error('Failed to fetch users');
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    };
+
     const handleLogout = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
@@ -86,7 +118,18 @@ export default function Dashboard() {
                 </header>
                 <div className='m-auto mt-14 items-center rounded-lg border-none backdrop-blur-lg bg-white/50 p-12'>
                     <h1 className={`text-[25pt]  ${montserratbold.className} pb-4`}>Usuários Cadastrados</h1>
-                        <div className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>Ragnar</div>
+                    {users.length > 0 ? (
+                        users.map((user) => (
+                            <div key={user.id} className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>
+                                <p>{user.name}</p>
+                                <p>{user.email}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <div className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 shadow-2xl'>
+                            Nenhum usuário encontrado.
+                        </div>
+                    )}
                 </div>
             </div>
 
