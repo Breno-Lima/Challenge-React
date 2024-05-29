@@ -21,14 +21,7 @@ const montserratbold = Montserrat({
 
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [name, setName] = useState('');
-
-    useEffect(() => {
-        const name = localStorage.getItem('name');
-        if (name) {
-            setName(name);
-        }
-    }, []);
+    const name = typeof window !== 'undefined' ? localStorage.getItem('name') : '';
     console.log('Valor de name:', name);
     const handleLogout = async () => {
         try {
