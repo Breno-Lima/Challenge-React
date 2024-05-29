@@ -20,6 +20,15 @@ export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [name, setName] = useState('');
 
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+          const storedName = localStorage.getItem('name');
+          if (storedName) {
+            setName(storedName);
+          }
+        }
+      }, []);
+      
     const handleLogout = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
