@@ -28,7 +28,7 @@ export default function Dashboard() {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
             const name = localStorage.getItem('name');
-            // localStorage.setItem('name', name!); 
+            localStorage.setItem('name', name!); 
             console.log('Valor de name:', name);
             console.log('Access Token:', access_token);
             console.log('Email:', email);
