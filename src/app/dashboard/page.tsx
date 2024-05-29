@@ -17,24 +17,22 @@ const montserratbold = Montserrat({
     weight: ["500"],
 });
 
+// Initialize name state from localStorage if available
+const getNameFromLocalStorage = () => {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('name') || '';
+    }
+    return '';
+};
+
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [name, setName] = useState('');
-
-    // Ensure to only read localStorage on the client side
-    if (typeof window !== 'undefined' && !name) {
-        const storedName = localStorage.getItem('name');
-        if (storedName) {
-            setName(storedName);
-        }
-    }
+    const [name, setName] = useState(getNameFromLocalStorage());
 
     const handleLogout = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
-            const name = localStorage.getItem('name');
-            localStorage.setItem('name', name!); 
             console.log('Valor de name:', name);
             console.log('Access Token:', access_token);
             console.log('Email:', email);
