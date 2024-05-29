@@ -67,14 +67,13 @@ export default function Home() {
 
 const handleLogin = async () => {
 
-    const name = localStorage.getItem('name');
+    // const name = localStorage.getItem('name');
     const access_token = localStorage.getItem('access_token');
     const response = await fetch("https://teste.reobote.tec.br/api/login", {
       body: JSON.stringify({
         email,
         password,
         persistent: true,
-        name,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +84,7 @@ const handleLogin = async () => {
 
     console.log(response);
     console.log(email);
-    console.log(name);
+    // console.log(name);
     if (!response.ok) {
       toast.error('Credenciais incorretas');
       return;
@@ -98,8 +97,8 @@ const handleLogin = async () => {
     console.log(data);
   
     setLoginSuccess(true);
-    console.log(name);
-    localStorage.setItem('name', data.name);
+    // console.log(name);
+    // localStorage.setItem('name', data.name);
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('email', email);  
     window.location.href = '/dashboard';
