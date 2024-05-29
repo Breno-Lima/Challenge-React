@@ -23,6 +23,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedName = localStorage.getItem('name');
+            localStorage.setItem('name', storedName || '');
             setName(storedName || '');
         }
     }, []);
@@ -31,6 +32,7 @@ export default function Dashboard() {
         try {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
+            localStorage.setItem('name', name);
             console.log('Valor de name:', name);
             console.log('Access Token:', access_token);
             console.log('Email:', email);
