@@ -28,7 +28,7 @@ export default function Dashboard() {
     const [name, setName] = useState('');
     const [users, setUsers] = useState<User[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 5;
+    const usersPerPage = 4;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -103,11 +103,12 @@ export default function Dashboard() {
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-
+    const colors = ["primary", "secondary", "success", "warning", "danger", "violet-custom"]
+    const variants = ["flat", "bordered", "faded", "light"]
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
-        <main className="grid grid-col bg-custom-bg bg-cover bg-center h-screen justify-center pt-4">
+        <main className="grid grid-col bg-custom-bg bg-cover bg-center h-full pb-12 justify-center pt-4">
             <div className='flex flex-col justify-center'>
                 <header className="flex backdrop-blur-md shadow-2xl bg-white/50 w-[50rem] h-[4rem] rounded-full items-center justify-between">
                     <div className='pl-4 justify-items-start flex items-center space-x-3'>
@@ -121,19 +122,19 @@ export default function Dashboard() {
                         </button>
                         <span className={`text-violet-custom ${montserrat.className}`}>Bem vindo, {name}</span>
                     </div>
-                    <div className='rounded-full bg-violet-custom mr-8 px-6 hover:bg-red-custom duration-500 transform hover:scale-110'>
                         <button onClick={openModal}>
+                    <div className='rounded-full bg-violet-custom mr-8 px-6 hover:bg-red-custom duration-500 transform hover:scale-110'>
                             <span className={`text-white hover:text-white duration-500 ${montserrat.className}`}>Sair</span>
-                        </button>
                     </div>
+                        </button>
                 </header>
-                <div className='m-auto mt-14 items-center rounded-lg border-none backdrop-blur-lg bg-white/50 p-12'>
+                <div className='m-auto mt-8 items-center rounded-lg border-none backdrop-blur-lg bg-white/50 p-12'>
                     <h1 className={`text-[25pt]  ${montserratbold.className} pb-4`}>Usuários Cadastrados</h1>
                     {currentUsers.length > 0 ? (
                         currentUsers.map((user) => (
-                            <div key={user.id} className='rounded-lg backdrop-blur-lg bg-violet-custom/50 p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>
-                                <p>{user.name}</p>
-                                <p>{user.email}</p>
+                            <div key={user.id} className='mb-4 rounded-lg backdrop-blur-lg bg-white p-4 hover:bg-white/20 duration-500 transform hover:scale-110 shadow-2xl'>
+                                <p> <span className={`text-black ${montserrat.className}`}>Nome:</span> <span className={`text-black ${montserratbold.className}`}>{user.name}</span></p>
+                                <p> <span className={`text-black ${montserrat.className}`}>Email:</span> <span className={`text-black ${montserratbold.className}`}> {user.email}</span></p>
                             </div>
                         ))
                     ) : (
@@ -141,12 +142,17 @@ export default function Dashboard() {
                             Nenhum usuário encontrado.
                         </div>
                     )}
+                 
                     <Pagination
                         total={Math.ceil(users.length / usersPerPage)}
                         initialPage={1}
                         page={currentPage}
                         onChange={paginate}
+                        className="flex justify-center"
+                        color="secondary"
+                        variant="flat"
                     />
+            
                 </div>
             </div>
 

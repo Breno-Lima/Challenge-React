@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Eye, EyeSlash } from "@phosphor-icons/react";
 
 
 const montserrat = Montserrat({
@@ -44,7 +45,7 @@ export default function Home() {
   const [password, setPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleEmail = (e: { target: { value: any; }; }) => {
     
     const inputEmail = e.target.value;
@@ -60,10 +61,13 @@ export default function Home() {
     setPassword(inputPassword);
 
     // Expressão regular para verificar se é uma senha válida
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
     setIsValidPassword(passwordRegex.test(inputPassword));
   };
 
+  const toggleShowPassword = () =>{
+    setShowPassword(!showPassword);
+  }
 
 const handleLogin = async () => {
 
@@ -143,7 +147,7 @@ const handleLogin = async () => {
           </div>
           <div className="flex justify-center items-center">
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/30 w-[50%] h-[50px] ${alata.className} border ${isValidPassword ? 'border-green-500' : 'border-red-500'}`}
               placeholder="Digite sua senha"
               value={password}
@@ -155,6 +159,9 @@ const handleLogin = async () => {
                 WebkitAppearance: 'none',
               }}
             />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-[28%] pt-[4.2rem] cursor-pointer" onClick={toggleShowPassword}>
+            {showPassword ? <EyeSlash size={24} weight="light" /> : <Eye size={24} weight="light" color="violet-custom"/>}
+            </div>
           </div>
           <div className="pt-16 m-auto">
           <button 
