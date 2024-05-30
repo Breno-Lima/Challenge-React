@@ -90,11 +90,19 @@ export default function Register() {
     setName(name);
   };
 
+
+
   const handleRegister = async () => {
+    if (!name || !email || !password || !passwordConfirmation) {
+      toast.warning('Preencha todos os campos.');
+      return;
+    }
+
     if (!isValidEmail) {
       toast.error("Email inválido.");
       return;
     }
+
     if (!isValidPassword) {
       if (password.length < 8) {
         toast.error('A senha deve ter pelo menos 8 caracteres.');
@@ -173,10 +181,10 @@ export default function Register() {
         theme="colored"
       />
       <LoadingModal isLoading={isLoading} />
-      <div className="w-[56rem] h-[32rem] rounded-lg backdrop-blur-md shadow-3xl flex flex-col">
-        <div className="flex pt-4 items-center pl-4">
+      <div className="w-full h-auto sm:h-96 md:h-[32rem] lg:w-[56rem] lg:h-[32rem] rounded-lg backdrop-blur-md shadow-3xl flex flex-col">
+        <div className="flex pt-4 items-center pl-4 ">
           <Link href="/">
-            <div className="flex justify-start backdrop-blur-md shadow-3xl bg-white/30 p-2 rounded-2xl hover:bg-orange-custom duration-500 duration-500">
+            <div className="transform hover:scale-110 flex justify-start backdrop-blur-md shadow-3xl bg-white/30 p-2 rounded-2xl hover:bg-orange-custom duration-500 duration-500">
               <button><ArrowLeft size={32} weight="thin" /></button>
             </div>
           </Link>
