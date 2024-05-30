@@ -3,14 +3,13 @@
 import { Montserrat, Urbanist, Alata } from "next/font/google";
 import Link from 'next/link';
 import "./globals.css";
-import Pulsating from "@/components/pulsing";;
+import Pulsating from "@/components/pulsing";
 import styled from "styled-components";
 import { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import FakeLoading from "@/components/fakeLoading";
-
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -37,6 +36,7 @@ const StyledDiv = styled.div`
   justify-content: center;
   width: 130px;
 `;
+
 interface LoadingModalProps {
   isLoading: boolean;
 }
@@ -52,7 +52,6 @@ const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
 };
 
 export default function Home() {
-  
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [visible, setVisible] = useState(true);
   const [email, setEmail] = useState('');
@@ -61,8 +60,8 @@ export default function Home() {
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const handleEmail = (e: { target: { value: any; }; }) => {
-    
     const inputEmail = e.target.value;
     setEmail(inputEmail);
 
@@ -80,11 +79,11 @@ export default function Home() {
     setIsValidPassword(passwordRegex.test(inputPassword));
   };
 
-  const toggleShowPassword = () =>{
+  const toggleShowPassword = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
-const handleLogin = async () => {
+  const handleLogin = async () => {
     setIsLoading(true);
     const access_token = localStorage.getItem('access_token');
     const response = await fetch("https://teste.reobote.tec.br/api/login", {
@@ -95,43 +94,42 @@ const handleLogin = async () => {
       }),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${access_token}`, 
+        "Authorization": `Bearer ${access_token}`,
       },
       method: "POST",
     });
 
     if (!response.ok) {
       toast.error('Credenciais incorretas');
+      setIsLoading(false);
       return;
     }
-  
+
     const responseText = await response.text();
-  
     const data = JSON.parse(responseText);
-  
+
     setLoginSuccess(true);
     localStorage.setItem('access_token', data.access_token);
-    localStorage.setItem('email', email);  
+    localStorage.setItem('email', email);
     setTimeout(() => {
-      setIsLoading(false); 
+      setIsLoading(false);
       window.location.href = '/dashboard';
     }, 1000);
-};
-  
+  };
 
   return (
-    <main className="bg-custom-bg bg-cover bg-center h-screen flex items-center justify-center">
+    <main className="bg-custom-bg bg-cover bg-center h-screen flex items-center justify-center p-4">
       <ToastContainer />
       <LoadingModal isLoading={isLoading} />
-      <div className="w-[56rem] h-[32rem] rounded-lg backdrop-blur-md shadow-3xl flex">
-        <div className="backdrop-blur-lg bg-white/30 rounded-l-lg w-[50%] text-center">
-          <div className="flex flex-col justify-center">
-            <h1 className={`text-[25pt] pt-24 ${montserrat.className}`}>Bem Vindo</h1>
-            <h2 className={`text-[25pt] pt-20 ${urbanist.className} pr-[5rem]`}>
+      <div className="w-full max-w-lg lg:max-w-none lg:w-[56rem] lg:h-[32rem] rounded-lg backdrop-blur-md shadow-3xl flex flex-col lg:flex-row">
+        <div className="backdrop-blur-lg bg-white/30 rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none w-full lg:w-[50%] text-center p-6 lg:p-0 justify-center">
+          <div className="flex flex-col justify-center h-full">
+            <h1 className={`text-[25pt] pt-12 lg:pt-0 ${montserrat.className}`}>Bem Vindo</h1>
+            <h2 className={`text-[25pt] pt-12 lg:pt-20 ${urbanist.className} lg:pr-[5rem]`}>
               <span className="inline-block half-border">Novo Login</span>
             </h2>
             <Link href="/register">
-              <div className="pt-20">
+              <div className="pt-12 lg:pt-20">
                 <Pulsating visible={visible} color="#FFD4E4">
                   <button className="transform transition-transform duration-500 hover:scale-110">
                     <StyledDiv color="#8b269e" className="hover:bg-violet-800 duration-500">Criar conta</StyledDiv>
@@ -142,12 +140,12 @@ const handleLogin = async () => {
           </div>
         </div>
 
-        <div className="flex flex-col backdrop-blur-lg rounded-lg w-full justify-center m-auto relative">
-          <span className={`text-[25pt] m-auto ${montserrat.className}`}>Faça Login</span>
-          <div className="flex justify-center items-center pb-2 pt-16">
+        <div className="flex flex-col backdrop-blur-lg bg-white/30 lg:bg-transparent rounded-b-lg lg:rounded-lg lg:rounded-l-none w-full justify-center lg:h-full m-auto relative p-6 lg:p-0">
+          <span className={`text-[25pt] m-auto lg:pt-6 ${montserrat.className}`}>Faça Login</span>
+          <div className="flex justify-center items-center pb-2 pt-8 lg:pt-0">
             <input
               type="email"
-              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/30 w-[50%] h-[50px] ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidEmail ? 'border-green-500' : 'border-red-500'}`}
+              className={`p-2  rounded-lg bg-transparent backdrop-blur-lg bg-white/30 w-full lg:w-[50%] h-[50px] ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidEmail ? 'border-green-500' : 'border-red-500'}`}
               placeholder="Digite seu melhor email"
               value={email}
               onChange={handleEmail}
@@ -159,7 +157,7 @@ const handleLogin = async () => {
           <div className="flex justify-center items-center">
             <input
               type={showPassword ? 'text' : 'password'}
-              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/30 w-[50%] h-[50px] ${alata.className} border ${isValidPassword ? 'border-green-500' : 'border-red-500'}`}
+              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/30 w-full lg:w-[50%] h-[50px] ${alata.className} border ${isValidPassword ? 'border-green-500' : 'border-red-500'}`}
               placeholder="Digite sua senha"
               value={password}
               onChange={handlePassword}
@@ -170,18 +168,17 @@ const handleLogin = async () => {
                 WebkitAppearance: 'none',
               }}
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-[28%] pt-[4.2rem] cursor-pointer" onClick={toggleShowPassword}>
-            {showPassword ? <EyeSlash size={24} weight="light" /> : <Eye size={24} weight="light" color="violet-custom"/>}
+            <div className="absolute inset-y-0 right-0 flex items-center pr-[15%] lg:pr-[28%] pt-[4.1rem] lg:pt-[5.5rem] cursor-pointer" onClick={toggleShowPassword}>
+              {showPassword ? <EyeSlash size={24} weight="light" /> : <Eye size={24} weight="light" color="violet-custom" />}
             </div>
           </div>
-          <div className="pt-16 m-auto">
-          <button 
-            onClick={handleLogin} 
-            className="rounded-3xl bg-orange-custom px-8 py-2 hover:bg-orange-custom duration-500 transform hover:scale-110"
-          >
-            Entrar
-          </button>
-                   
+          <div className="pt-8 lg:pt-0 m-auto">
+            <button 
+              onClick={handleLogin} 
+              className="rounded-3xl bg-orange-custom px-8 py-2 hover:bg-orange-custom duration-500 transform hover:scale-110"
+            >
+              Entrar
+            </button>
           </div>
         </div>
       </div>
