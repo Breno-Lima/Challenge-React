@@ -9,6 +9,7 @@ import { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Eye, EyeSlash } from "@phosphor-icons/react";
+import FakeLoading from "@/components/fakeLoading";
 
 
 const montserrat = Montserrat({
@@ -36,6 +37,19 @@ const StyledDiv = styled.div`
   justify-content: center;
   width: 130px;
 `;
+interface LoadingModalProps {
+  isLoading: boolean;
+}
+
+const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
+  if (!isLoading) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <FakeLoading />
+    </div>
+  );
+};
 
 export default function Home() {
   
@@ -45,6 +59,7 @@ export default function Home() {
   const [password, setPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleEmail = (e: { target: { value: any; }; }) => {
     
@@ -70,8 +85,7 @@ export default function Home() {
   }
 
 const handleLogin = async () => {
-
-    // const name = localStorage.getItem('name');
+    setIsLoading(true);
     const access_token = localStorage.getItem('access_token');
     const response = await fetch("https://teste.reobote.tec.br/api/login", {
       body: JSON.stringify({
@@ -86,32 +100,29 @@ const handleLogin = async () => {
       method: "POST",
     });
 
-    console.log(response);
-    console.log(email);
-    // console.log(name);
     if (!response.ok) {
       toast.error('Credenciais incorretas');
       return;
     }
   
     const responseText = await response.text();
-    console.log(responseText);
   
     const data = JSON.parse(responseText);
-    console.log(data);
   
     setLoginSuccess(true);
-    // console.log(name);
-    // localStorage.setItem('name', data.name);
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('email', email);  
-    window.location.href = '/dashboard';
+    setTimeout(() => {
+      setIsLoading(false); 
+      window.location.href = '/dashboard';
+    }, 1000);
 };
   
 
   return (
     <main className="bg-custom-bg bg-cover bg-center h-screen flex items-center justify-center">
       <ToastContainer />
+      <LoadingModal isLoading={isLoading} />
       <div className="w-[56rem] h-[32rem] rounded-lg backdrop-blur-md shadow-3xl flex">
         <div className="backdrop-blur-lg bg-white/30 rounded-l-lg w-[50%] text-center">
           <div className="flex flex-col justify-center">

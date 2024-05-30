@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
 import { Montserrat } from "next/font/google";
+import FakeLoading from "@/components/fakeLoading";
 
 
 const montserrat = Montserrat({
@@ -22,11 +23,27 @@ interface User {
     email: string;
 }
 
+interface LoadingModalProps {
+    isLoading: boolean;
+  }
+  
+  const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
+    if (!isLoading) return null;
+  
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <FakeLoading />
+      </div>
+    );
+  };
+  
+
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [name, setName] = useState('');
     const [users, setUsers] = useState<User[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const usersPerPage = 4;
 
     useEffect(() => {
@@ -65,6 +82,7 @@ export default function Dashboard() {
     };
 
     const handleLogout = async () => {
+        setIsLoading(true);
         try {
             const access_token = localStorage.getItem('access_token');
             const email = localStorage.getItem('email');
@@ -81,12 +99,15 @@ export default function Dashboard() {
                 },
                 body: JSON.stringify({ email, name }),
             });
-
+            
             if (response.ok) {
                 localStorage.removeItem('name');
                 localStorage.removeItem('email');
                 localStorage.removeItem('access_token');
-                window.location.href = '/';
+                setTimeout(() => {
+                    setIsLoading(false); 
+                    window.location.href = '/';
+                  }, 1000);
             } else {
                 console.error('Falha ao fazer logout, status:', response.status);
             }
@@ -110,6 +131,7 @@ export default function Dashboard() {
 
     return (
         <main className="grid grid-col bg-custom-bg  h-screen bg-cover bg-center h-full pb-12 justify-center pt-4">
+            <LoadingModal isLoading={isLoading} />
             <div className='flex flex-col justify-center'>
                 <header className="flex backdrop-blur-md shadow-2xl bg-white/50 w-[50rem] h-[4rem] rounded-full items-center justify-between">
                     <div className='pl-4 justify-items-start flex items-center space-x-3'>

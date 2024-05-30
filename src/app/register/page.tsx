@@ -145,17 +145,16 @@ export default function Register() {
       console.log('name:', name);
       localStorage.setItem('email', data.email);
 
-      // Aguardar um tempo mínimo antes de redirecionar
       setTimeout(() => {
-        setIsLoading(false); // Hide loading modal
+        setIsLoading(false); 
         window.location.href = '/';
-      }, 1000); // 2 segundos de espera
+      }, 1000);
 
     } catch (error) {
       console.error('Erro ao registrar:', error);
       toast.error('Erro ao registrar. Verifique seus dados e tente novamente.');
       setError('Erro ao registrar. Verifique seus dados e tente novamente.');
-      setIsLoading(false); // Hide loading modal
+      setIsLoading(false);
     }
   };
 
