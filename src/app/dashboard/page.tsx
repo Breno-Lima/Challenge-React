@@ -1,10 +1,10 @@
 "use client";
-
 import { Pagination } from "@nextui-org/pagination";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
 import { Montserrat } from "next/font/google";
+
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -101,12 +101,15 @@ export default function Dashboard() {
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+    
     const colors = ["primary", "secondary", "success", "warning", "danger", "violet-custom"]
     const variants = ["flat", "bordered", "faded", "light"]
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
 
     return (
-        <main className="grid grid-col bg-custom-bg bg-cover bg-center h-full pb-12 justify-center pt-4">
+        <main className="grid grid-col bg-custom-bg  h-screen bg-cover bg-center h-full pb-12 justify-center pt-4">
             <div className='flex flex-col justify-center'>
                 <header className="flex backdrop-blur-md shadow-2xl bg-white/50 w-[50rem] h-[4rem] rounded-full items-center justify-between">
                     <div className='pl-4 justify-items-start flex items-center space-x-3'>
@@ -140,13 +143,13 @@ export default function Dashboard() {
                             Nenhum usuário encontrado.
                         </div>
                     )}
-            
+
                     <Pagination
                         total={Math.ceil(users.length / usersPerPage)}
                         initialPage={1}
                         page={currentPage}
                         onChange={paginate}
-                        className="flex justify-center"
+                        className="flex justify-center pt-6"
                         color="secondary"
                         variant="flat"
                     />

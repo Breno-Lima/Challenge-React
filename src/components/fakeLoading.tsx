@@ -1,12 +1,6 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import CircularProgress, {
-  circularProgressClasses,
-  CircularProgressProps,
-} from '@mui/material/CircularProgress';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function GradientCircularProgress() {
   return (
