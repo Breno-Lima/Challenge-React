@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
 import { Montserrat } from "next/font/google";
-import Link from 'next/link';
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -38,14 +37,13 @@ export default function Dashboard() {
             }
         }
 
-        // Fetch the users when the component mounts
         fetchUsers();
     }, []);
 
     const fetchUsers = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
-            console.log('Fetching users with access token:', access_token); // Log token
+            console.log('Fetching users with access token:', access_token); 
             const response = await fetch('https://teste.reobote.tec.br/api/dashboard', {
                 method: 'GET',
                 headers: {
@@ -56,8 +54,8 @@ export default function Dashboard() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('API response data:', data); // Log API response
-                setUsers(data.users || []); // Use data.users if API returns users in nested object
+                console.log('API response data:', data); 
+                setUsers(data.users || []); 
             } else {
                 console.error('Failed to fetch users, status:', response.status);
             }
@@ -142,7 +140,7 @@ export default function Dashboard() {
                             Nenhum usuário encontrado.
                         </div>
                     )}
-                 
+            
                     <Pagination
                         total={Math.ceil(users.length / usersPerPage)}
                         initialPage={1}

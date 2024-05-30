@@ -9,6 +9,7 @@ import Pulsating from "@/components/pulsing";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import FakeLoading from "@/components/fakeLoading";
 
 const alata = Alata({
   subsets: ["latin"],
@@ -31,6 +32,20 @@ const StyledDiv = styled.div`
   width: 130px;
 `;
 
+interface LoadingModalProps {
+  isLoading: boolean;
+}
+
+const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
+  if (!isLoading) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <FakeLoading />
+    </div>
+  );
+};
+
 
 export default function Register() {
   const [visible, setVisible] = useState(true);
@@ -43,6 +58,7 @@ export default function Register() {
   const [isValidPasswordConfirmation, setIsValidPasswordConfirmation] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputEmail = e.target.value;
@@ -75,7 +91,6 @@ export default function Register() {
   };
 
   const handleRegister = async () => {
-
     if (!isValidEmail) {
       toast.error("Email inválido.");
       return;
@@ -98,6 +113,7 @@ export default function Register() {
     }
 
     try {
+      setIsLoading(true);
       const access_token = localStorage.getItem('access_token');
       const response = await fetch('https://teste.reobote.tec.br/api/register', {
         method: 'POST',
@@ -116,27 +132,34 @@ export default function Register() {
 
       if (!response.ok) {
         toast.error('Erro ao registrar. Verifique seus dados e tente novamente.');
+        setIsLoading(false); // Hide loading modal
+        return;
       }
 
       const data = await response.json();
       console.log("data:", data);
       console.log('Registro realizado com sucesso:', data);
       localStorage.setItem('access_token', data.access_token);
-      console.log('access_token:', data.access_token)
+      console.log('access_token:', data.access_token);
       localStorage.setItem('name', name);
-      console.log('name:', name)
+      console.log('name:', name);
       localStorage.setItem('email', data.email);
-      window.location.href = '/';
+
+      // Aguardar um tempo mínimo antes de redirecionar
+      setTimeout(() => {
+        setIsLoading(false); // Hide loading modal
+        window.location.href = '/';
+      }, 1000); // 2 segundos de espera
+
     } catch (error) {
       console.error('Erro ao registrar:', error);
       toast.error('Erro ao registrar. Verifique seus dados e tente novamente.');
       setError('Erro ao registrar. Verifique seus dados e tente novamente.');
+      setIsLoading(false); // Hide loading modal
     }
   };
 
-
   return (
-
     <main className="bg-custom-bg bg-cover bg-center h-screen flex items-center justify-center">
       <ToastContainer
         position="top-right"
@@ -150,6 +173,7 @@ export default function Register() {
         pauseOnHover
         theme="colored"
       />
+      <LoadingModal isLoading={isLoading} />
       <div className="w-[56rem] h-[32rem] rounded-lg backdrop-blur-md shadow-3xl flex flex-col">
         <div className="flex pt-4 items-center pl-4">
           <Link href="/">
@@ -188,7 +212,7 @@ export default function Register() {
           <div className="pt-4 flex w-full justify-center ">
             <input
               type={showPassword ? 'text' : 'password'}
-              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/60 w-[50%] h-[50px] pr-10 ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidEmail ? 'border-green-500' : 'border-red-500'
+              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/60 w-[50%] h-[50px] pr-10 ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidPassword ? 'border-green-500' : 'border-red-500'
                 }`}
               placeholder="Digite sua senha"
               value={password}
@@ -218,7 +242,6 @@ export default function Register() {
               }}
             />
           </div>
-
         </div>
         <div className="pt-16 m-auto pb-4">
           <button onClick={handleRegister}>
@@ -226,10 +249,8 @@ export default function Register() {
               <StyledDiv color="bg-orange-custom" className="rounded-3xl bg-blue-custom px-8 py-2 hover:bg-orange-custom duration-500 transform hover:scale-110">Criar</StyledDiv>
             </Pulsating>
           </button>
-
         </div>
       </div>
-
     </main>
   );
 }
