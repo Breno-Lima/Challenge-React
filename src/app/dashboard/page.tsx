@@ -25,18 +25,18 @@ interface User {
 
 interface LoadingModalProps {
     isLoading: boolean;
-  }
-  
-  const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
+}
+
+const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
     if (!isLoading) return null;
-  
+
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <FakeLoading />
-      </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <FakeLoading />
+        </div>
     );
-  };
-  
+};
+
 
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,7 +60,7 @@ export default function Dashboard() {
     const fetchUsers = async () => {
         try {
             const access_token = localStorage.getItem('access_token');
-            console.log('Fetching users with access token:', access_token); 
+            console.log('Fetching users with access token:', access_token);
             const response = await fetch('https://teste.reobote.tec.br/api/dashboard', {
                 method: 'GET',
                 headers: {
@@ -71,8 +71,8 @@ export default function Dashboard() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('API response data:', data); 
-                setUsers(data.users || []); 
+                console.log('API response data:', data);
+                setUsers(data.users || []);
             } else {
                 console.error('Failed to fetch users, status:', response.status);
             }
@@ -99,15 +99,15 @@ export default function Dashboard() {
                 },
                 body: JSON.stringify({ email, name }),
             });
-            
+
             if (response.ok) {
                 localStorage.removeItem('name');
                 localStorage.removeItem('email');
                 localStorage.removeItem('access_token');
                 setTimeout(() => {
-                    setIsLoading(false); 
+                    setIsLoading(false);
                     window.location.href = '/';
-                  }, 1000);
+                }, 1000);
             } else {
                 console.error('Falha ao fazer logout, status:', response.status);
             }
@@ -124,7 +124,7 @@ export default function Dashboard() {
     const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    
+
     const colors = ["primary", "secondary", "success", "warning", "danger", "violet-custom"]
     const variants = ["flat", "bordered", "faded", "light"]
 
@@ -133,8 +133,8 @@ export default function Dashboard() {
         <main className="grid grid-col bg-custom-bg  h-screen bg-cover bg-center h-full pb-12 justify-center pt-4">
             <LoadingModal isLoading={isLoading} />
             <div className='flex flex-col justify-center'>
-                <header className="flex backdrop-blur-md shadow-2xl bg-white/50 w-[50rem] h-[4rem] rounded-full items-center justify-between">
-                    <div className='pl-4 justify-items-start flex items-center space-x-3'>
+                <header className="flex  backdrop-blur-md shadow-2xl bg-white/50 w-full md:w-[50rem] h-[4rem] rounded-full items-center justify-between">
+                    <div className="flex items-center space-x-3 pl-4 justify-start lg:w-full">
                         <button>
                             <Image
                                 src={User}
@@ -145,12 +145,15 @@ export default function Dashboard() {
                         </button>
                         <span className={`text-violet-custom ${montserrat.className}`}>Bem vindo, {name}</span>
                     </div>
+                    <div className="flex items-center justify-end lg:w-full md:w-auto">
                         <button onClick={openModal}>
-                    <div className='rounded-full bg-violet-custom mr-8 px-6 hover:bg-red-custom duration-500 transform hover:scale-110'>
-                            <span className={`text-white hover:text-white duration-500 ${montserrat.className}`}>Sair</span>
-                    </div>
+                            <div className="rounded-full bg-violet-custom mr-8 px-6 hover:bg-red-custom duration-500 transform hover:scale-110">
+                                <span className={`text-white hover:text-white duration-500 ${montserrat.className}`}>Sair</span>
+                            </div>
                         </button>
+                    </div>
                 </header>
+
                 <div className='m-auto mt-8 items-center rounded-lg border-none backdrop-blur-lg bg-white/50 p-12'>
                     <h1 className={`text-[25pt]  ${montserratbold.className} pb-4`}>Usuários Cadastrados</h1>
                     {currentUsers.length > 0 ? (
@@ -175,7 +178,7 @@ export default function Dashboard() {
                         color="secondary"
                         variant="flat"
                     />
-            
+
                 </div>
             </div>
 
