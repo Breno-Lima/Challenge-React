@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import FakeLoading from "@/components/fakeLoading";
+import { Tooltip, Button } from "@nextui-org/react";
 
 const alata = Alata({
   subsets: ["latin"],
@@ -152,7 +153,7 @@ export default function Register() {
       localStorage.setItem('email', data.email);
 
       setTimeout(() => {
-        setIsLoading(false); 
+        setIsLoading(false);
         window.location.href = '/';
       }, 1000);
 
@@ -202,32 +203,44 @@ export default function Register() {
             />
           </div>
           <div className="flex w-full justify-center">
-            <input
-              type="email"
-              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/60 w-[50%] h-[50px] ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidEmail ? 'border-green-500' : 'border-red-500'
-                }`}
-              placeholder="Digite seu melhor email"
-              value={email}
-              onChange={handleEmail}
-              style={{
-                boxShadow: 'none',
-              }}
-            />
+            <Tooltip color={"secondary"} content={"example@example.com"} className="p-2" placement={"top-end"}>
+              <input
+                type="email"
+                className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/60 w-[50%] h-[50px] ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidEmail ? 'border-green-500' : 'border-red-500'
+                  }`}
+                placeholder="Digite seu melhor email"
+                value={email}
+                onChange={handleEmail}
+                style={{
+                  boxShadow: 'none',
+                }}
+              />
+            </Tooltip>
           </div>
           <div className="pt-4 flex w-full justify-center ">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/60 w-[50%] h-[50px] pr-10 ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidPassword ? 'border-green-500' : 'border-red-500'
-                }`}
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={handlePassword}
-              style={{
-                boxShadow: 'none',
-              }}
-            />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-[28%] pt-[5.6rem] cursor-pointer" onClick={toggleShowPassword}>
-              {showPassword ? <EyeSlash size={24} weight="light" /> : <Eye size={24} weight="light" color="violet-custom"/>}
+            <Tooltip color={"secondary"} content={
+              <div>
+                <div className="font-bold">Deve conter:</div>
+                <div>1 número</div>
+                <div>8 caracteres</div>
+                <div>Letra maiúscula</div>
+                <div>Letra minúscula</div>
+              </div>
+            } className="p-2" placement={"top-end"}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className={`p-2 rounded-lg bg-transparent backdrop-blur-lg bg-white/60 w-[50%] h-[50px] pr-10 ${alata.className} focus:outline-none focus:ring transition duration-300 border ${isValidPassword ? 'border-green-500' : 'border-red-500'
+                  }`}
+                placeholder="Digite sua senha"
+                value={password}
+                onChange={handlePassword}
+                style={{
+                  boxShadow: 'none',
+                }}
+              />
+            </Tooltip>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-[28%] pt-[5.6rem] cursor-pointer" >
+              {showPassword ? <EyeSlash size={24} weight="light" color="gray" onClick={toggleShowPassword}/> : <Eye size={24} weight="light" onClick={toggleShowPassword}/>}
             </div>
           </div>
 

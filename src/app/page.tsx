@@ -168,8 +168,8 @@ export default function Home() {
                 WebkitAppearance: 'none',
               }}
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-[15%] lg:pr-[28%] pt-[4.1rem] lg:pt-[5.5rem] cursor-pointer" onClick={toggleShowPassword}>
-              {showPassword ? <EyeSlash size={24} weight="light" /> : <Eye size={24} weight="light" color="violet-custom" />}
+            <div className="absolute inset-y-0 right-0 flex items-center pr-[15%] lg:pr-[28%] pt-[4.1rem] lg:pt-[5.5rem] cursor-pointer" >
+              {showPassword ? <EyeSlash size={24} weight="light" color="gray" onClick={toggleShowPassword} /> : <Eye size={24} weight="light" color="violet-custom" onClick={toggleShowPassword} />}
             </div>
           </div>
           <div className="pt-8 lg:pt-0 m-auto">
