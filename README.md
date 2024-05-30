@@ -15,8 +15,6 @@ Este é um projeto desenvolvido como parte de uma entrevista técnica para uma e
 
 - NextJS
 
-- JavaScript
-
 - TypeScript
 
 - JavaScript
