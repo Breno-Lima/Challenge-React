@@ -1,5 +1,4 @@
 "use client";
-// import api from '@/services/api';
 
 import { useState } from "react";
 import Link from 'next/link';
@@ -91,7 +90,6 @@ export default function Register() {
   };
 
 
-
   const handleRegister = async () => {
     if (!name || !email || !password || !passwordConfirmation) {
       toast.warning('Preencha todos os campos.');
@@ -167,7 +165,7 @@ export default function Register() {
   };
 
   return (
-    <main className="bg-custom-bg bg-cover bg-center h-screen flex items-center justify-center">
+    <main className="p-12 lg:p-0 bg-custom-bg bg-cover bg-center h-screen flex items-center justify-center">
       <ToastContainer
         position="top-right"
         autoClose={5000}
