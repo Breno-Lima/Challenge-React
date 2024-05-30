@@ -52,6 +52,11 @@ npm i
 npm run dev
 ```
 
+4. Devido ao Chrome não habilitar o CORS para localhost foi necessário utilizar o ngrok em paralelo ao npm run dev em outro terminal com esse comando:
+```sh
+ngrok http http://localhost:{port}
+```
+
 ### Para uma melhor experiência fiz o deploy da aplicação na Vercel:
 ```sh
 https://challenge-react-three.vercel.app/
