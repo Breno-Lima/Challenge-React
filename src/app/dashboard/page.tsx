@@ -1,11 +1,11 @@
 "use client";
+
 import { Pagination } from "@nextui-org/pagination";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import User from '../../../public/images/userplus.png';
 import { Montserrat } from "next/font/google";
 import FakeLoading from "@/components/fakeLoading";
-
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -36,7 +36,6 @@ const LoadingModal: React.FC<LoadingModalProps> = ({ isLoading }) => {
         </div>
     );
 };
-
 
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -127,7 +126,6 @@ export default function Dashboard() {
 
     const colors = ["primary", "secondary", "success", "warning", "danger", "violet-custom"]
     const variants = ["flat", "bordered", "faded", "light"]
-
 
     return (
         <main className="grid grid-col bg-custom-bg  h-screen bg-cover bg-center h-full pb-12 justify-center pt-4">

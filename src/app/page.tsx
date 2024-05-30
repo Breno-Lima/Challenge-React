@@ -65,7 +65,6 @@ export default function Home() {
     const inputEmail = e.target.value;
     setEmail(inputEmail);
 
-    // Expressão regular para verificar se é um email válido
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setIsValidEmail(emailRegex.test(inputEmail));
   };
@@ -74,7 +73,6 @@ export default function Home() {
     const inputPassword = e.target.value;
     setPassword(inputPassword);
 
-    // Expressão regular para verificar se é uma senha válida
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
     setIsValidPassword(passwordRegex.test(inputPassword));
   };
@@ -173,8 +171,8 @@ export default function Home() {
             </div>
           </div>
           <div className="pt-8 lg:pt-0 m-auto">
-            <button 
-              onClick={handleLogin} 
+            <button
+              onClick={handleLogin}
               className="rounded-3xl bg-orange-custom px-8 py-2 hover:bg-orange-custom duration-500 transform hover:scale-110"
             >
               Entrar

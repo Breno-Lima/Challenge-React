@@ -139,7 +139,7 @@ export default function Register() {
 
       if (!response.ok) {
         toast.error('Erro ao registrar. Verifique seus dados e tente novamente.');
-        setIsLoading(false); // Hide loading modal
+        setIsLoading(false);
         return;
       }
 
@@ -240,7 +240,7 @@ export default function Register() {
               />
             </Tooltip>
             <div className="absolute inset-y-0 right-0 flex items-center pr-[28%] pt-[5.6rem] cursor-pointer" >
-              {showPassword ? <EyeSlash size={24} weight="light" color="gray" onClick={toggleShowPassword}/> : <Eye size={24} weight="light" onClick={toggleShowPassword}/>}
+              {showPassword ? <EyeSlash size={24} weight="light" color="gray" onClick={toggleShowPassword} /> : <Eye size={24} weight="light" onClick={toggleShowPassword} />}
             </div>
           </div>
 

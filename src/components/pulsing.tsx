@@ -46,7 +46,6 @@ const Wrapper = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  //margin: 150px;
   position: relative;
 `;
 
